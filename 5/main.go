@@ -9,14 +9,16 @@ import (
 
 func getResult(m int, paints [][2]int, n int, boxes [][2]int) int {
 	cnt := 0
+	idx := n - 1 // idx коробки
 
 	for j := m - 1; j >= 0; j-- {
 		box := [2]int{0, 0} // коробка макс. размера для текущей картины
-		for i := n - 1; i >= 0; i-- {
+		for i := idx; i >= 0; i-- {
 			if paints[j][0] > boxes[i][0] {
 				break
 			}
 			if paints[j][1] <= boxes[i][1] {
+				idx = i
 				box = boxes[i]
 			}
 		}
@@ -80,12 +82,12 @@ func main() {
 			}
 		}
 
-		slices.SortFunc(boxes, func(m1, m2 [2]int) int {
-			return m1[0] - m2[0]
+		slices.SortFunc(boxes, func(a1, a2 [2]int) int {
+			return a1[0] - a2[0]
 		})
 
-		slices.SortFunc(paints, func(m1, m2 [2]int) int {
-			return m1[0] - m2[0]
+		slices.SortFunc(paints, func(a1, a2 [2]int) int {
+			return a1[0] - a2[0]
 		})
 
 		fmt.Println(getResult(m, paints, n, boxes))
